@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>点名</title>
+    <style>
+        body {
+            background-color: #000;
+        }
+
+        .rect {
+            width: 80px;
+            height: 25px;
+            border: 1px solid red;
+            line-height: 25px;
+            text-align: center;
+            margin: 5px 5px;
+            float: left;
+            color: #fff;
+        }
+
+        #container {
+            width: 920px;
+            margin: 50px auto 10px;
+            border: 1px solid blue;
+        }
+        .clear {
+            clear: both;
+        }
+
+        #button {
+            width: 300px;
+            height: 30px;
+            border: 1px solid green;
+            border-radius: 5px;
+            color: #fff;
+            background-color: green;
+            font-size: 14px;
+            line-height: 30px;
+            text-align: center;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+
+        #button:active{
+            background-color: deeppink;
+        }
+
+        .select {
+            background-color: yellow;
+            color: #000;
+        }
+    </style>
+
+    <script type="text/template" id="data">
+        汪恒 徐杰  王凯  李淑苹 陈博  崔晓莉 田永  王巍巍 高红兵 裴宇
+        孙聪  侯玲燕 王默  汪栋  田盼盼 刘文军     仲依林 张颖  陈辰  王康  胡燕梅 刘超  张帅  陆仕军 刘畅
+        赵振坤 吴颖杰 侯家政 陈婷  葛飞          徐艳辉 苏红  于军  郑亚栋 梁微微 徐润东 兰晋华 张佳奇 赵倩倩
+        李凯文 马楠楠 吕冬冬 张亮亮 刘秋实         盛夏阳 王小林 刘芳宇 王柯然 武京京 张仁帅 李方旋 王胜兰 马菁
+        赵恒  郭华东 杨波  武欢  王伦  李伍宁     曹国庆 邢凯  王欣妍 齐磊  边振  罗正熙 甘延林 智国力 韩鹏
+        吕文涛 袁杰  邹非凡 滑树森 卓浩  殷秀萍     杨晓峰 山玲豪 姚峰  计金贵 黄仕良 孙雪萍 畅晋凤 潘志超 滕保留
+        王赛  成科科 陈磊  魏小华 李亚恒 张唯珍     马永冬 郭继龙 郭文静 刘炜冰 唐胜军 乔建峰 王珊珊 卢俊丞 孔令杭
+        袁航  薛武英 李晓洒 王翠翠 刘龙鹏 强军锋     刘倩  吴家伟 黄梦琴 贾明  苑旭东 李永永 袁帅  张兰琴 谷振超
+        刘倩  辛凯凯 权向阳 孔园园 荆艳鑫 葛鹏飞         岳献琴 朱琼  薛莉娟 赵益谦
+        宁继峰 程晓丽 王明鑫 王振南 郭宸瑞
+    </script>
+    <script type="text/javascript">
+        var J = {
+            id:function(idName){
+                return document.getElementById(idName);
+            },
+            getData: function( idName){
+                var node = this.id(idName),
+                    txt;
+                txt = node
+                        .innerHTML
+                        .replace( /\s+/g, " " )
+                        .trim();
+                node.parentNode.removeChild( node );
+                return txt.split( ' ' );
+            },
+            cFrag: function(){
+                return document.createDocumentFragment();
+            },
+            cElem: function(name){
+                return document.createElement(name);
+            }
+        }
+
+        onload = function(){
+            var list = J.getData('data'),
+                docfrag = J.cFrag(),
+                nodes = [], i,
+                clearNode;
+            for( i = 0; i < list.length; i++){
+                var div = J.cElem('div');
+                div.innerHTML = list[i];
+                div.className = 'rect';
+                docfrag.appendChild(div);
+                nodes.push(div);
+            }
+
+            J.id('container').appendChild(docfrag);
+            clearNode = J.cElem('div');
+            clearNode.className = 'clear';
+            J.id('container').appendChild(clearNode);
+
+            // 绑定计时器
+            var start = false,
+                    interval,
+                    select;
+            J.id('button').onclick = function(){
+                if( start ){
+                    clearInterval(interval);
+                    this.innerHTML = ' 点 击 ';
+                }else{
+                    interval = setInterval(function(){
+                        if(select)  select.className = 'rect';
+                        var i = parseInt(Math.random()*1000)%list.length;
+                        select = nodes[i];
+                        select.className += ' select';
+                     },5);
+                    this.innerHTML = ' 停 止 ';
+                }
+                start = !start;
+            };
+
+        };
+    </script>
+</head>
+<body>
+<div id="container"></div>
+<div id="button"> 点 击 </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
